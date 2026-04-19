@@ -1,5 +1,7 @@
 package cinema.services;
 
+import cinema.exceptions.DuplicateEntityException;
+import cinema.exceptions.EntityOutOfBoundsException;
 import cinema.models.CinemaRoom;
 import cinema.models.Seat;
 import cinema.repositories.CinemaRepository;
@@ -11,6 +13,8 @@ public class CinemaService {
 
     private static final int MIN_ROW = 1;
     private static final int MIN_COLUMN = 1;
+    private static final String ALREADY_PURCHASED_ERROR_MESSAGE = "The ticket has been already purchased!";
+    private static final String OUT_OF_BOUNDS_ERROR_MESSAGE = "The number of a row or a column is out of bounds!";
     private final CinemaRoom cinemaRoom;
     private final CinemaRepository cinemaRepository;
 
@@ -26,10 +30,10 @@ public class CinemaService {
 
     public Seat bookSeat(Seat seat) {
         if (isOutOfBounds(seat)) {
-            throw new IllegalArgumentException("The number of a row or a column is out of bounds!");
+            throw new EntityOutOfBoundsException(OUT_OF_BOUNDS_ERROR_MESSAGE);
         }
         if (cinemaRepository.isSeatPurchased(seat)) {
-            throw new IllegalArgumentException("Seat is already purchased");
+            throw new DuplicateEntityException(ALREADY_PURCHASED_ERROR_MESSAGE);
         }
         cinemaRepository.purchaseSeat(seat);
         return seat;
