@@ -1,0 +1,15 @@
+# Java/IntelliJ/Gradle Junk
+.gradle/
+build/
+.idea/
+*.iml
+out/
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# Hyperskill specific
+course-remote-info.yaml
+tasks/
+Topics/
