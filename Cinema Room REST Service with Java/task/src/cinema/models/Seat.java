@@ -2,6 +2,8 @@ package cinema.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Objects;
+
 public class Seat {
 
     private static final int FIRST_ROWS = 4;
@@ -11,13 +13,11 @@ public class Seat {
     private int row;
     private int column;
     private int price;
-    private boolean isReserved;
 
     public Seat(int row, int column) {
         this.row = row;
         this.column = column;
         this.price = (row <= FIRST_ROWS) ? EXPECTED_PRICE : NORMAL_PRICE;
-        this.isReserved = false;
     }
 
     public int getRow() {
@@ -44,14 +44,14 @@ public class Seat {
         this.price = price;
     }
 
-    @JsonIgnore
-    public boolean isReserved() {
-        return isReserved;
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Seat seat)) return false;
+        return getRow() == seat.getRow() && getColumn() == seat.getColumn();
     }
 
-    public void setReserved(boolean isReserved) {
-        this.isReserved = isReserved;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRow(), getColumn());
     }
-
-
 }
