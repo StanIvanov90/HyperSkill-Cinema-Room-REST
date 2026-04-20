@@ -5,10 +5,7 @@ import cinema.exceptions.DuplicateEntityException;
 import cinema.exceptions.EntityOutOfBoundsException;
 import cinema.services.CinemaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -28,12 +25,10 @@ public class CinemaController {
 
     @PostMapping("/purchase")
     public ResponseEntity<?> bookSeat(@RequestBody SeatDTO seatDTO) {
-        try {
-            return ResponseEntity.ok(cinemaService.bookSeat(seatDTO));
-        } catch (EntityOutOfBoundsException | DuplicateEntityException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        return ResponseEntity.ok(cinemaService.bookSeat(seatDTO));
     }
+
+
 }
 
 
