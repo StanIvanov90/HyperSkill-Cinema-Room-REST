@@ -68,11 +68,12 @@ Method: POST
 
 Request Body:
 
-JSON
+```JSON
 {
     "row": 1,
     "column": 1
 }
+```
 Response Code: 200 OK / 400 Bad Request (if seat is taken or out of bounds)
 
 3. Return a Ticket
@@ -85,10 +86,11 @@ Method: POST
 
 Request Body:
 
-JSON
+```JSON
 {
     "token": "uuid-token-here"
 }
+```
 Response Code: 200 OK / 400 Bad Request (if token is invalid)
 
 4. Statistics
@@ -111,7 +113,8 @@ cinema.stats.password=super_secret
 Error Response Format
 All errors are returned in a consistent JSON format to assist frontend integration:
 
-JSON
+```JSON
 {
     "error": "Detailed error message here"
 }
+```
