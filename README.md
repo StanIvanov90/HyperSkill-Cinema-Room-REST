@@ -109,7 +109,9 @@ Configuration
 The administrative password can be configured in the src/main/resources/application.properties file:
 
 Properties
+```
 cinema.stats.password=super_secret
+```
 Error Response Format
 All errors are returned in a consistent JSON format to assist frontend integration:
 
