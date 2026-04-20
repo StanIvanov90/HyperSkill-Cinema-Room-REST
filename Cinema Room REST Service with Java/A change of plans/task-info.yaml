@@ -21,13 +21,16 @@ files:
   - name: src/cinema/exceptions/EntityOutOfBoundsException.java
     visible: true
     learner_created: false
+  - name: src/cinema/dtos/ReturnRequestDTO.java
+    visible: true
+    learner_created: true
+  - name: src/cinema/dtos/TicketDTO.java
+    visible: true
+    learner_created: true
   - name: src/cinema/models/Ticket.java
     visible: true
     learner_created: true
   - name: src/cinema/exceptions/WrongEntityException.java
-    visible: true
-    learner_created: true
-  - name: src/cinema/dtos/ReturnRequestDTO.java
     visible: true
     learner_created: true
 feedback_link: https://hyperskill.org/projects/189/stages/947/implement#comment

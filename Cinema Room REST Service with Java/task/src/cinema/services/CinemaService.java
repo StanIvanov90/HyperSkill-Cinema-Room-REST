@@ -1,19 +1,19 @@
 package cinema.services;
 
-import cinema.dtos.CinemaRoomDTO;
-import cinema.dtos.DtoMapper;
-import cinema.dtos.SeatDTO;
-import cinema.dtos.TicketDTO;
+import cinema.dtos.*;
 import cinema.exceptions.DuplicateEntityException;
 import cinema.exceptions.EntityOutOfBoundsException;
+import cinema.exceptions.UnauthorizedException;
 import cinema.exceptions.WrongEntityException;
 import cinema.models.CinemaRoom;
 import cinema.models.Seat;
 import cinema.repositories.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -24,6 +24,7 @@ public class CinemaService {
     private static final String ALREADY_PURCHASED_ERROR_MESSAGE = "The ticket has been already purchased!";
     private static final String OUT_OF_BOUNDS_ERROR_MESSAGE = "The number of a row or a column is out of bounds!";
     private static final String WRONG_TOKEN_ERROR_MESSAGE = "Wrong token!";
+    private static final String UNAUTHORIZED_ERROR_MESSAGE = "The Password is wrong!";
     private static final int FIRST_ROWS = 4;
     private static final int EXPENSIVE_PRICE = 10;
     private static final int NORMAL_PRICE = 8;
@@ -31,6 +32,9 @@ public class CinemaService {
     private final CinemaRoom cinemaRoom;
     private final CinemaRepository cinemaRepository;
     private final DtoMapper dtoMapper;
+
+    @Value("${cinema.stats.password}")
+    private String statsPassword;
 
     @Autowired
     public CinemaService(CinemaRoom cinemaRoom, CinemaRepository cinemaRepository, DtoMapper dtoMapper) {
@@ -72,6 +76,20 @@ public class CinemaService {
         cinemaRepository.removeSeat(seat);
         cinemaRepository.removeTicket(token);
         return dtoMapper.toTicketDTO(token, seat, calculatePrice(seat));
+    }
+
+    public StatisticsDTO getStatistics(String password) {
+        if (!statsPassword.equals(password)) {
+            throw new UnauthorizedException(UNAUTHORIZED_ERROR_MESSAGE);
+        }
+        Set<Seat> purchasedSeats = cinemaRepository.getPurchasedSeats();
+
+        int income = purchasedSeats.stream()
+                .mapToInt(this::calculatePrice)
+                .sum();
+        int available = cinemaRoom.getRows() * cinemaRoom.getColumns() - purchasedSeats.size();
+        int purchasedTickets = purchasedSeats.size();
+        return new StatisticsDTO(income, available, purchasedTickets);
     }
 
     private boolean isOutOfBounds(Seat seat) {

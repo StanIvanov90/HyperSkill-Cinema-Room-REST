@@ -4,6 +4,7 @@ import cinema.dtos.ReturnRequestDTO;
 import cinema.dtos.SeatDTO;
 import cinema.dtos.TicketDTO;
 import cinema.services.CinemaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,11 @@ public class CinemaController {
         public ResponseEntity<?> returnTicket(@RequestBody ReturnRequestDTO token){
         TicketDTO returnedSeat = cinemaService.returnTicket(token.getToken());
             return ResponseEntity.ok(Map.of("ticket", returnedSeat.getTicket()));
+        }
+
+        @GetMapping(value = "/stats")
+        public ResponseEntity<?> getStatistics(@RequestParam String password) {
+            return ResponseEntity.ok(cinemaService.getStatistics(password));
         }
 
     }
