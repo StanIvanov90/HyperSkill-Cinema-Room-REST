@@ -1,8 +1,8 @@
 package cinema.controllers;
 
+import cinema.dtos.SeatDTO;
 import cinema.exceptions.DuplicateEntityException;
 import cinema.exceptions.EntityOutOfBoundsException;
-import cinema.models.Seat;
 import cinema.services.CinemaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +23,13 @@ public class CinemaController {
 
     @GetMapping("/seats")
     public ResponseEntity<?> getCinemaRoom() {
-        return ResponseEntity.ok(cinemaService.getCinemaRoom());
+        return ResponseEntity.ok(cinemaService.getCinemaRoomDTO());
     }
 
     @PostMapping("/purchase")
-    public ResponseEntity<?> bookSeat(@RequestBody Seat seat) {
+    public ResponseEntity<?> bookSeat(@RequestBody SeatDTO seatDTO) {
         try {
-            return ResponseEntity.ok(cinemaService.bookSeat(seat));
+            return ResponseEntity.ok(cinemaService.bookSeat(seatDTO));
         } catch (EntityOutOfBoundsException | DuplicateEntityException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

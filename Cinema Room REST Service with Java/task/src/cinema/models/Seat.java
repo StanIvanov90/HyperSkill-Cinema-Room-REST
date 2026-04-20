@@ -17,7 +17,6 @@ public class Seat {
     public Seat(int row, int column) {
         this.row = row;
         this.column = column;
-        this.price = (row <= FIRST_ROWS) ? EXPECTED_PRICE : NORMAL_PRICE;
     }
 
     public int getRow() {
