@@ -1,10 +1,10 @@
 package cinema.dtos;
 
-import cinema.models.CinemaRoom;
 import cinema.models.Seat;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class DtoMapper {
@@ -27,4 +27,7 @@ public class DtoMapper {
         return new CinemaRoomDTO(rows, columns, seatDtos);
     }
 
+    public TicketDTO toTicketDTO(UUID token, Seat seat, int price) {
+        return new TicketDTO(token, toDTO(seat,price));
+    }
 }

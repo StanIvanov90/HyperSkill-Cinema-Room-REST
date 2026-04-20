@@ -1,13 +1,14 @@
 package cinema.controllers;
 
+import cinema.dtos.ReturnRequestDTO;
 import cinema.dtos.SeatDTO;
-import cinema.exceptions.DuplicateEntityException;
-import cinema.exceptions.EntityOutOfBoundsException;
+import cinema.dtos.TicketDTO;
 import cinema.services.CinemaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class CinemaController {
@@ -25,10 +26,15 @@ public class CinemaController {
 
     @PostMapping("/purchase")
     public ResponseEntity<?> bookSeat(@RequestBody SeatDTO seatDTO) {
-        return ResponseEntity.ok(cinemaService.bookSeat(seatDTO));
+        return ResponseEntity.ok(cinemaService.purchaseTicket(seatDTO));
     }
 
+    @PostMapping("/return")
+        public ResponseEntity<?> returnTicket(@RequestBody ReturnRequestDTO token){
+        TicketDTO returnedSeat = cinemaService.returnTicket(token.getToken());
+            return ResponseEntity.ok(Map.of("ticket", returnedSeat.getTicket()));
+        }
 
-}
+    }
 
 
