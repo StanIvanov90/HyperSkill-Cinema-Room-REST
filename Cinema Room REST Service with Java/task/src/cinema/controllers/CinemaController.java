@@ -4,12 +4,10 @@ import cinema.dtos.ReturnRequestDTO;
 import cinema.dtos.SeatDTO;
 import cinema.dtos.TicketDTO;
 import cinema.services.CinemaService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 public class CinemaController {
