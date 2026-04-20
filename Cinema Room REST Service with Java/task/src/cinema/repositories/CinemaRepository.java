@@ -26,6 +26,10 @@ public class CinemaRepository {
         purchasedSeats.remove(seat);
     }
 
+    public Set<Seat> getPurchasedSeats() {
+        return purchasedSeats;
+    }
+
     public void purchaseTicket(UUID token, Seat seat) {
         purchasedTickets.put(token, seat);
     }
